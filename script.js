@@ -1,19 +1,30 @@
 
-// fetch("https://api.openweathermap.org/data/2.5/forecast?lat=52.5244&lon=13.4105&units=metric&appid=b3ae74932b305e9002676ce8ef72bfbb")
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data);
-//     })
+async function searchCity(input) {
 
-// let req111 = fetch("http://api.openweathermap.org/geo/1.0/direct?q=Berlin&limit=5&appid=b3ae74932b305e9002676ce8ef72bfbb")
-//     .then(response => response.json())
+    if (input.value.length >= 1) {
+        const cities = await matchCities(input.value)
+        $('#search-box-list').empty();
 
-// (async () => {
-//     const ress = await getCitiesJson('Berlin');
-//     console.log(ress[0].lat);
-// })()
+        for (city of cities) {
+            $('#search-box-list').append(`<li onclick="chooseCity(this)" lat="${city.lat}" lng="${city.lon}">${city.name} ${city.country_code} ${city.timezone}</li>`);
+        }
+    }
+    else {
+        $('#search-box-list').empty();
+    }
+}
 
-matchCitiesTest()
+async function matchCities(input) {
+    const response = await fetch("https://localhost:7084/cities?startsWith=" + input + "&limit=5");
+    const cities = await response.json();
+    return cities;
+}
+
+
+function chooseCity(city) {
+    $('#search-box-list').empty();
+    $('#search-box-input').val(city.innerHTML)
+}
 
 
 async function getCitiesJson(cityName) {
@@ -22,28 +33,7 @@ async function getCitiesJson(cityName) {
     return cityData;
 }
 
-function searchCity(input) {
-    if (input.value.length >= 2) {
-        console.log(matchCities(input.value))
-    }
-}
-
-async function matchCities(input) {
-    const response = await fetch("https://localhost:7084/cities?startsWith=" + input + "&limit=5");
-    const cities = await response.json();
-    debugger;
-    return cities;
-}
 
 
-async function matchCitiesTest() {
-    const response = await fetch('https://localhost:7084/cities?startsWith=Kra&limit=5', {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-        },
-    });
-    debugger;
-    const cities = await response.json();
-    return cities;
-}
+
+

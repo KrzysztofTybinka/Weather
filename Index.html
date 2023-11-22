@@ -5,31 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="script.js" defer></script>
 </head>
 
 <body>
     <div id="main">
-        <div class="today-info">
-            <div class="search-box">
-                <input type="text" placeholder="Search" onchange="searchCity(this)">
+        <div id="today-info">
+            <div id="search-box">
+                <input id="search-box-input" type="text" placeholder="Search" onkeyup="searchCity(this)">
+                <ul id="search-box-list"></ul>
             </div>
-            <div class="current">
-                <div class="current-image">
+            <div id="today-info">
+                <div id="current-image">
 
                 </div>
-                <div class="current-info">
+                <div id="current-info">
 
                 </div>
-                <div class="today-weather-info">
+                <div id="today-info">
 
                 </div>
-                <div class="today-other-info">
+                <div id="today-other">
 
                 </div>
             </div>
         </div>
-        <div class="week-info">
+        <div id="week-info">
 
         </div>
     </div>
