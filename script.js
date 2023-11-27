@@ -150,7 +150,7 @@ function onDetailsSet(dayIx, hourIx) {
 
     $('#current-info').append(`<p><h3>${weatherInfo.cityName}</h3></p>`);
     $('#current-info').append(`<p>${details.description}</p>`);
-    $('#current-info').append(`<p><h5>${details.temp}</h5></p>`);
+    $('#current-info').append(`<p><h1>${details.temp}</h1></p>`);
 
     $('#today-other-list').append(`<li>${details.details.feelsLike}</li>`);
     $('#today-other-list').append(`<li>${details.details.humidity}</li>`);
