@@ -145,17 +145,17 @@ function onDaySet(ix) {
 
 function onDetailsSet(dayIx, hourIx) {
     $('#current-info').empty();
-    $('#today-other-list').empty();
+    $('#today-details-list').empty();
     let details = weatherInfo.info[dayIx].dayInfo[hourIx];
 
     $('#current-info').append(`<p><h3>${weatherInfo.cityName}</h3></p>`);
     $('#current-info').append(`<p>${details.description}</p>`);
     $('#current-info').append(`<p><h1>${details.temp}</h1></p>`);
 
-    $('#today-other-list').append(`<li>${details.details.feelsLike}</li>`);
-    $('#today-other-list').append(`<li>${details.details.humidity}</li>`);
-    $('#today-other-list').append(`<li>${details.details.pressure}</li>`);
-    $('#today-other-list').append(`<li>${details.details.windSpeed}</li>`);
+    $('#today-details-list').append(`<li><h5>Feels like</h5>${details.details.feelsLike}°</li>`);
+    $('#today-details-list').append(`<li><h5>Humidity</h5>${details.details.humidity}%</li>`);
+    $('#today-details-list').append(`<li><h5>Pressure</h5>${details.details.pressure}hPa</li>`);
+    $('#today-details-list').append(`<li><h5>Wind speed</h5>${details.details.windSpeed}km/h</li>`);
 }
 
 

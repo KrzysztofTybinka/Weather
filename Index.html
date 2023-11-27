@@ -7,30 +7,29 @@
     <title>Weather</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="main">
+        <div id="search-box">
+            <input id="search-box-input" type="text" placeholder="Search" onkeyup="onCitySearch(this)">
+            <ul id="search-box-list"></ul>
+        </div>
         <div id="today-info">
-            <div id="search-box">
-                <input id="search-box-input" type="text" placeholder="Search" onkeyup="onCitySearch(this)">
-                <ul id="search-box-list"></ul>
+            <div id="current-image">
+
             </div>
-            <div id="today-info">
-                <div id="current-image">
+            <div id="current-info">
 
-                </div>
-                <div id="current-info">
-
-                </div>
-                <div id="today-info">
-                    <h4>TODAY'S FORECAST</h4>
-                    <ul id="today-info-list"></ul>
-                </div>
-                <div id="today-other">
-                    <h4>DETAILS</h4>
-                    <ul id="today-other-list"></ul>
-                </div>
+            </div>
+            <div id="today-forecast">
+                <h4>TODAY'S FORECAST</h4>
+                <ul id="today-info-list"></ul>
+            </div>
+            <div id="today-details">
+                <h4>DETAILS</h4>
+                <ul id="today-details-list"></ul>
             </div>
         </div>
         <div id="week-info">
