@@ -40,9 +40,10 @@ async function onCityChosen(city) {
 }
 
 function fillWeekInfo() {
-    weatherInfo.info.forEach(element => {
-        $('#week-list').append(`<li>${element.date} ${element.average} ${element.maxTemp}/${element.minTemp}</li>`);
-    });
+    let infoArr = weatherInfo.info;
+    for (let i = 0; i < infoArr.length; i++) {
+        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} ${infoArr[i].average} ${infoArr[i].maxTemp}/${infoArr[i].minTemp}</li>`);
+    }
 }
 
 function clearAll() {
@@ -133,7 +134,29 @@ function day(date) {
     return intDay[ix];
 }
 
+function onDaySet(ix) {
+    $('#today-info-list').empty();
+    const dayInfo = weatherInfo.info[ix].dayInfo;
 
+    for (var i = 0; i < dayInfo.length; i++) {
+        $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}" onclick="onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)">${dayInfo[i].hour} <br> ${dayInfo[i].description} <br> ${dayInfo[i].temp}</li>`);
+    }
+}
+
+function onDetailsSet(dayIx, hourIx) {
+    $('#current-info').empty();
+    $('#today-other-list').empty();
+    let details = weatherInfo.info[dayIx].dayInfo[hourIx];
+
+    $('#current-info').append(`<p><h3>${weatherInfo.cityName}</h3></p>`);
+    $('#current-info').append(`<p>${details.description}</p>`);
+    $('#current-info').append(`<p><h5>${details.temp}</h5></p>`);
+
+    $('#today-other-list').append(`<li>${details.details.feelsLike}</li>`);
+    $('#today-other-list').append(`<li>${details.details.humidity}</li>`);
+    $('#today-other-list').append(`<li>${details.details.pressure}</li>`);
+    $('#today-other-list').append(`<li>${details.details.windSpeed}</li>`);
+}
 
 
 
