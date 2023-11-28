@@ -68,4 +68,30 @@ ul {
     height: 30px;
     background-color: #EAECEF;
     border: #EAECEF;
+    text-indent: 10px;
+}
+
+#search-box-list {
+    margin: 0px;
+    border-radius: 25px;
+    width: 65%;
+    position: fixed;
+    background-color: #EAECEF;
+}
+
+#search-box-list>li {
+    margin: 10px 0px 10px 0px;
+}
+
+#week-info img {
+    vertical-align: middle;
+}
+
+#today-forecast>ul {
+    display: flex;
+}
+
+#today-forecast>ul>li p {
+    width: 55.5px;
+    text-align: center;
 }

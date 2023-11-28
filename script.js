@@ -44,7 +44,7 @@ function fillWeekInfo() {
     let infoArr = weatherInfo.info;
 
     for (let i = 0; i < infoArr.length; i++) {
-        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} <img src="${iconLink + infoArr[i].averageIcon}.png"> <b>${infoArr[i].average} ${infoArr[i].maxTemp}</b>/${infoArr[i].minTemp}</li>`);
+        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)"><span>${infoArr[i].date}</span> <img src="${iconLink + infoArr[i].averageIcon}.png"> <span><b>${infoArr[i].average} ${infoArr[i].maxTemp}</b>/${infoArr[i].minTemp}</span></li>`);
     }
 }
 
@@ -165,6 +165,9 @@ function onDetailsSet(dayIx, hourIx) {
     $('#today-details-list').append(`<li><h5>Pressure</h5>${details.details.pressure}hPa</li>`);
     $('#today-details-list').append(`<li><h5>Wind speed</h5>${details.details.windSpeed}km/h</li>`);
 }
-
+var x
+function reset() {
+    $('#search-box-input').val('')
+}
 
 
