@@ -95,3 +95,9 @@ ul {
     width: 55.5px;
     text-align: center;
 }
+
+#today-forecast>ul>li,
+#week-info>ul>li,
+#search-box-list>li {
+    cursor: pointer;
+}
