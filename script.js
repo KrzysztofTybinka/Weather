@@ -42,8 +42,9 @@ async function onCityChosen(city) {
 
 function fillWeekInfo() {
     let infoArr = weatherInfo.info;
+
     for (let i = 0; i < infoArr.length; i++) {
-        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} ${infoArr[i].average} ${infoArr[i].maxTemp}/${infoArr[i].minTemp}</li>`);
+        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} <img src="${iconLink + infoArr[i].averageIcon}.png"> ${infoArr[i].average} ${infoArr[i].maxTemp}/${infoArr[i].minTemp}</li>`);
     }
 }
 
@@ -59,11 +60,11 @@ function clearAll() {
 async function getWeather(lat, lon) {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}&units=metric`);
     weather = await response.json();
-
     weatherInfo.cityName = weather.city.name;
     let degreeArr = [];
     let oneDay = [];
     let descArr = [];
+    let iconArr = [];
     let counter = 0;
 
     weather.list.forEach(element => {
@@ -83,6 +84,7 @@ async function getWeather(lat, lon) {
         degreeArr.push(info.temp)
         descArr.push(info.description)
         oneDay.push(info);
+        iconArr.push(info.icon);
 
         if ((counter + 1) % 8 === 0) {
             degreeArr.sort()
@@ -90,6 +92,7 @@ async function getWeather(lat, lon) {
             weatherInfo.info.push({
                 date: day(element.dt_txt),
                 average: mostFrequent(descArr),
+                averageIcon: mostFrequent(iconArr),
                 maxTemp: Math.round(degreeArr.lastIndexOf()),
                 minTemp: Math.round(degreeArr[0]),
                 dayInfo: oneDay
@@ -98,6 +101,7 @@ async function getWeather(lat, lon) {
             degreeArr = [];
             oneDay = [];
             descArr = [];
+            iconArr = [];
         }
         counter++;
     });
@@ -130,7 +134,7 @@ function day(date) {
 
     const intDay = {
         1: "Mon", 2: "Tue", 3: "Wed",
-        4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
+        4: "Thu", 5: "Fri", 6: "Sat", 0: "Sun"
     };
     let ix = inputDate.getDay();
     return intDay[ix];
