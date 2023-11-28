@@ -1,9 +1,10 @@
-const key = 'b3ae74932b305e9002676ce8ef72bfbb';
+const key = 'b3ae74932b305e9002676ce8ef72bfbb'
+const iconLink = 'https://openweathermap.org/img/wn/';
 
 let weatherInfo = {
     cityName: null,
     info: []
-};
+}
 
 async function onCitySearch(input) {
 
@@ -71,6 +72,7 @@ async function getWeather(lat, lon) {
             hour: new Date(element.dt_txt).getHours() + ":00",
             temp: Math.round(element.main.temp),
             description: element.weather[0].description,
+            icon: element.weather[0].icon,
             details: {
                 feelsLike: Math.round(element.main.feels_like),
                 humidity: element.main.humidity,
@@ -145,12 +147,14 @@ function onDaySet(ix) {
 
 function onDetailsSet(dayIx, hourIx) {
     $('#current-info').empty();
+    $('#current-image').empty();
     $('#today-details-list').empty();
     let details = weatherInfo.info[dayIx].dayInfo[hourIx];
 
     $('#current-info').append(`<p><h3>${weatherInfo.cityName}</h3></p>`);
     $('#current-info').append(`<p>${details.description}</p>`);
-    $('#current-info').append(`<p><h1>${details.temp}</h1></p>`);
+    $('#current-image').append(`<img src="${iconLink + details.icon}@4x.png">`);
+    $('#current-info').append(`<p><h1>${details.temp}°</h1></p>`);
 
     $('#today-details-list').append(`<li><h5>Feels like</h5>${details.details.feelsLike}°</li>`);
     $('#today-details-list').append(`<li><h5>Humidity</h5>${details.details.humidity}%</li>`);
