@@ -44,7 +44,7 @@ function fillWeekInfo() {
     let infoArr = weatherInfo.info;
 
     for (let i = 0; i < infoArr.length; i++) {
-        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} <img src="${iconLink + infoArr[i].averageIcon}.png"> ${infoArr[i].average} ${infoArr[i].maxTemp}/${infoArr[i].minTemp}</li>`);
+        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)">${infoArr[i].date} <img src="${iconLink + infoArr[i].averageIcon}.png"> <b>${infoArr[i].average} ${infoArr[i].maxTemp}</b>/${infoArr[i].minTemp}</li>`);
     }
 }
 
@@ -145,7 +145,7 @@ function onDaySet(ix) {
     const dayInfo = weatherInfo.info[ix].dayInfo;
 
     for (var i = 0; i < dayInfo.length; i++) {
-        $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}" onclick="onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)">${dayInfo[i].hour} <br> ${dayInfo[i].description} <br> ${dayInfo[i].temp}</li>`);
+        $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}" onclick="onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)"><p>${dayInfo[i].hour}</p> <img src="${iconLink + dayInfo[i].icon}.png"> <p><b>${dayInfo[i].temp}°<b></p></li>`);
     }
 }
 
