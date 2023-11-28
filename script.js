@@ -38,6 +38,22 @@ async function onCityChosen(city) {
     let lon = $(city).attr('lon');
     await getWeather(lat, lon);
     fillWeekInfo();
+    onDaySet(0);
+    onDetailsSet(0, closestHour())
+}
+
+function closestHour() {
+    let dayInfoArr = weatherInfo.info[0].dayInfo
+    let diff = "23:59"
+    let hour = new Date().getHours() + ':' + new Date().getMinutes()
+    let ix
+    debugger;
+    for (let i = 0; i < dayInfoArr.length; i++) {
+        if (Math.abs(dayInfoArr[i].hour - hour) < diff) {
+            ix = i
+        }
+    }
+    return ix
 }
 
 function fillWeekInfo() {
@@ -111,7 +127,7 @@ function mostFrequent(arr) {
     var mf = 1;
     var m = 0;
     var item;
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         for (var j = i; j < arr.length; j++) {
             if (arr[i] == arr[j])
                 m++;
@@ -144,7 +160,7 @@ function onDaySet(ix) {
     $('#today-info-list').empty();
     const dayInfo = weatherInfo.info[ix].dayInfo;
 
-    for (var i = 0; i < dayInfo.length; i++) {
+    for (let i = 0; i < dayInfo.length; i++) {
         $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}" onclick="onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)"><p>${dayInfo[i].hour}</p> <img src="${iconLink + dayInfo[i].icon}.png"> <p><b>${dayInfo[i].temp}°<b></p></li>`);
     }
 }
