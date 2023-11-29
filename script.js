@@ -5,6 +5,11 @@ let weatherInfo = {
     cityName: null,
     info: []
 }
+onStart()
+
+function onStart() {
+    //$('#main').hide()
+}
 
 async function onCitySearch(input) {
 
@@ -39,21 +44,30 @@ async function onCityChosen(city) {
     await getWeather(lat, lon);
     fillWeekInfo();
     onDaySet(0);
+
+
     onDetailsSet(0, closestHour())
 }
 
 function closestHour() {
-    let dayInfoArr = weatherInfo.info[0].dayInfo
-    let diff = "23:59"
-    let hour = new Date().getHours() + ':' + new Date().getMinutes()
-    let ix
-    debugger;
-    for (let i = 0; i < dayInfoArr.length; i++) {
-        if (Math.abs(dayInfoArr[i].hour - hour) < diff) {
-            ix = i
-        }
-    }
-    return ix
+    let arr = []
+    weatherInfo.info[0].dayInfo.forEach(e => {
+        arr.push(e.hour)
+    })
+
+    const currentHour = new Date().getHours();
+
+    const sortedHours = arr.map(hour => {
+        const [h, min] = hour.split(':');
+        return parseInt(h) + parseInt(min) / 60;
+    });
+
+    let closestHour = sortedHours.reduce((previous, current) => {
+        return Math.abs(current - currentHour) < Math.abs(previous - currentHour) ? current : previous;
+    });
+
+    const closestHourIndex = sortedHours.indexOf(closestHour);
+    return closestHourIndex;
 }
 
 function fillWeekInfo() {
@@ -181,7 +195,7 @@ function onDetailsSet(dayIx, hourIx) {
     $('#today-details-list').append(`<li><h5>Pressure</h5>${details.details.pressure}hPa</li>`);
     $('#today-details-list').append(`<li><h5>Wind speed</h5>${details.details.windSpeed}km/h</li>`);
 }
-var x
+
 function reset() {
     $('#search-box-input').val('')
 }
