@@ -6,6 +6,7 @@ The application dynamically showcases distinct weather images based on the curre
 search, providing users with a visually intuitive representation of weather conditions. 
 # Usage
 
+
 # Contributing
 If you wish to contribute to this project, please feel free to create a pull request with your changes.
 # License
