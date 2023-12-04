@@ -9,10 +9,11 @@ search, providing users with a visually intuitive representation of weather cond
 <img src="content/presentation.gif">
 
 # Code
-To display search bar with suggestions, application fetches api response and turns it into a valid json.
+To display search bar with suggestions, application fetches api response and turns it into a valid json.  
 <br />
 <img src="content/matchCity.png">
-When user chooses the city, latitude and longitude are being send to weather forecast api, and weather is set to current.
+
+When user chooses the city, latitude and longitude are being send to weather forecast api, and weather is set to current.  
 <br />
 <img src="content/cityChosen.png">
 
