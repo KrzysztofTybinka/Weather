@@ -5,13 +5,6 @@ let weatherInfo = {
     cityName: null,
     info: []
 }
-$('#main').hide()
-
-function onStart() {
-    $('#search-box').css('transform', 'translateY(-49vh)');
-    $('#main').css('transform', 'translateY(-49vh)');
-    $('#main').fadeIn(2000);
-}
 
 async function onCitySearch(input) {
 
@@ -36,7 +29,6 @@ async function matchCities(input) {
 
 
 async function onCityChosen(city) {
-    onStart()
     clearAll();
 
     $('#search-box-list').empty();

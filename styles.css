@@ -35,6 +35,16 @@ body {
     flex: 1 1 0;
 }
 
+#current-info {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+#current-image {
+    margin-right: 650px;
+    margin-top: 10px;
+}
+
 #today-forecast,
 #today-details {
     flex: 100%;
@@ -100,10 +110,4 @@ ul {
 #week-info>ul>li,
 #search-box-list>li {
     cursor: pointer;
-}
-
-#search-box {
-    transition: transform 1s ease-in-out;
-    margin-top: 50vh;
-    transform: translateY(-50%);
 }
