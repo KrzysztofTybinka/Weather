@@ -5,8 +5,7 @@ with the [MatchCityNameApi](https://github.com/KrzysztofTybinka/MatchCityNameApi
 The application dynamically showcases distinct weather images based on the current 
 search, providing users with a visually intuitive representation of weather conditions. 
 # Usage
-
-
+<img src="content/presentation.gif">
 # Contributing
 If you wish to contribute to this project, please feel free to create a pull request with your changes.
 # License
