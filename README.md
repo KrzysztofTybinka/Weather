@@ -1,7 +1,7 @@
 # About The Project
 The Weather Forecast Front-End Application utilizes a real-time weather API 
 to deliver detailed weather information in three-hour increments. Integrated 
-with the "MatchCityNameApi," it features a responsive auto-complete city search bar. 
+with the [MatchCityNameApi](https://github.com/KrzysztofTybinka/MatchCityNameApi) it features a responsive auto-complete city search bar. 
 The application dynamically showcases distinct weather images based on the current 
 search, providing users with a visually intuitive representation of weather conditions. 
 # Usage
