@@ -22,7 +22,7 @@ async function onCitySearch(input) {
 }
 
 async function matchCities(input) {
-    const response = await fetch("https://localhost:7084/cities?startsWith=" + input + "&limit=5");
+    const response = await fetch("https://localhost:7084/api/cities?startsWith=" + input + "&limit=5");
     const cities = await response.json();
     return cities;
 }
