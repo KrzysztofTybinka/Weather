@@ -1,15 +1,25 @@
 const forecastApiKey = 'b3ae74932b305e9002676ce8ef72bfbb'
-const forecastIconsUrl = 'https://openweathermap.org/img/wn/';
+const forecastIconsUrl = 'https://openweathermap.org/img/wn/'
 const cities = []
 const filteredCities = []
-let weatherInfo = {
-    cityName: null,
-    info: []
+const maxRequestNumber = 1000
+const minRequestNumber = 100
+const dropDownLength = 5
+
+$('#search-box-input').keyup(function (letters) {
+
+    if (cities) {
+        requestCities(letters, citiesRequestLimit())
+    }
+    if (!citiesMatchLetters(letters)) {
+        requestCities(letters, citiesRequestLimit())
+    }
+    buildCitiesDropDown()
+})
+
+async function buildCitiesDropDown() {
+
 }
-
-$('#search-box-input').keyup(function (e) {
-
-});
 
 async function onCitySearch(input) {
 
@@ -26,11 +36,27 @@ async function onCitySearch(input) {
     }
 }
 
-async function matchCities(input) {
+async function citiesMatchLetters(letters) {
 
 }
 
-async function requestCities(input) {
-    const response = await fetch("https://localhost:7084/api/cities?startsWith=" + input + "&limit=5");
-    cities = await response.json();
+async function requestCities(letters, limit) {
+    const response = await fetch("https://localhost:7084/api/cities?startsWith=" + letters + "&limit=" + limit)
+    cities = await response.json()
+}
+
+//Exponential function, higher lettersNumber 
+//lower return number, but never smaller than 
+//minRequestNumber and never greater than maxRequestNumber
+function citiesRequestLimit(lettersNumber) {
+
+    if (lettersNumber) {
+        return maxRequestNumber
+    }
+    let returnValue = maxRequestNumber / (lettersNumber * lettersNumber)
+
+    if (returnValue < minRequestNumber) {
+        return minRequestNumber
+    }
+    return Math.Floor(returnValue)
 }
