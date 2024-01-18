@@ -1,7 +1,7 @@
-const key = 'b3ae74932b305e9002676ce8ef72bfbb'
-const iconLink = 'https://openweathermap.org/img/wn/';
+const apiKey = 'b3ae74932b305e9002676ce8ef72bfbb'
+const iconLink = 'https://openweathermap.org/img/wn/'
 
-let weatherInfo = {
+const weatherInfo = {
     cityName: null,
     info: []
 }
