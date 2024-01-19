@@ -1,19 +1,28 @@
 const forecastApiKey = 'b3ae74932b305e9002676ce8ef72bfbb'
 const forecastIconsUrl = 'https://openweathermap.org/img/wn/'
-const cities = []
-const filteredCities = []
-const maxRequestNumber = 1000
-const minRequestNumber = 100
+let cities = []
+let filteredCities = []
+const maxRequestNumber = 100
+const minRequestNumber = 10
 const dropDownLength = 5
 
-$('#search-box-input').keyup(function (letters) {
+$('#search-box-input').keyup(async function (event) {
+    debugger
+    let substring = $(this).val()
+    if (cities.length == 0) {
+        cities = await requestCities(substring, requestLimit(0))
+    }
 
-    if (cities) {
-        requestCities(letters, citiesRequestLimit())
+    if (!anyStartsWith(cities, substring)) {
+        cities = await requestCities(substring, requestLimit(substring.length))
     }
-    if (!citiesMatchLetters(letters)) {
-        requestCities(letters, citiesRequestLimit())
+    filterCities(substring)
+
+    if (filteredCities.length < dropDownLength) {
+        cities = await requestCities(substring, requestLimit(substring.length))
+        filterCities(substring)
     }
+
     buildCitiesDropDown()
 })
 
@@ -21,8 +30,12 @@ async function buildCitiesDropDown() {
 
 }
 
-async function onCitySearch(input) {
+function anyStartsWith(collection, substring) {
+    return collection.some((e) =>
+        e.name.toLowerCase().startsWith(substring.toLowerCase()))
+}
 
+async function onCitySearch(input) {
     if (input.value.length >= 1) {
         const cities = await matchCities(input.value)
         $('#search-box-list').empty();
@@ -36,27 +49,33 @@ async function onCitySearch(input) {
     }
 }
 
-async function citiesMatchLetters(letters) {
-
+function filterCities(substring) {
+    filteredCities = []
+    cities.filter(function (city) {
+        if (city.name.toLowerCase().startsWith(substring.toLowerCase())) {
+            filteredCities.push(city)
+        }
+    });
 }
 
-async function requestCities(letters, limit) {
-    const response = await fetch("https://localhost:7084/api/cities?startsWith=" + letters + "&limit=" + limit)
-    cities = await response.json()
+async function requestCities(substring, limit) {
+    const response = await fetch("https://localhost:7084/api/cities?startsWith="
+        + substring + "&limit=" + limit)
+    const citiesJson = await response.json()
+    return citiesJson
 }
 
-//Exponential function, higher lettersNumber 
+//Exponential function, higher forNumber 
 //lower return number, but never smaller than 
 //minRequestNumber and never greater than maxRequestNumber
-function citiesRequestLimit(lettersNumber) {
-
-    if (lettersNumber) {
+function requestLimit(forNumber) {
+    if (forNumber == 0) {
         return maxRequestNumber
     }
-    let returnValue = maxRequestNumber / (lettersNumber * lettersNumber)
+    let returnValue = maxRequestNumber / (forNumber * forNumber)
 
     if (returnValue < minRequestNumber) {
         return minRequestNumber
     }
-    return Math.Floor(returnValue)
+    return Math.floor(returnValue)
 }
