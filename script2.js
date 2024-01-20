@@ -29,12 +29,13 @@ $('#search-box-input').keyup(async function (event) {
 function buildCitiesDropDown(substring) {
     if (substring.length >= 1) {
 
+        let matchingCities = filteredCities < dropDownLength ? filteredCities : filteredCities.slice(0, dropDownLength)
         $('#search-box-list').empty();
-        for (let i = 0; i < dropDownLength; i++) {
+        for (city of matchingCities) {
             $('#search-box-list').append(`<li onclick="onCityChosen(this)"`
-                + `lat="${filteredCities[i].lat}" lon="${filteredCities[i].lon}">`
-                + `${filteredCities[i].name} ${filteredCities[i].country_code}`
-                + `${filteredCities[i].timezone}</li >`);
+                + `lat="${city.lat}" lon="${city.lon}">`
+                + `${city.name} ${city.country_code} `
+                + `${city.timezone}</li >`);
         }
     }
     else {
@@ -68,6 +69,7 @@ function filterCities(substring) {
             filteredCities.push(city)
         }
     });
+    filteredCities.sort(a => a.population)
 }
 
 async function requestCities(substring, limit) {
