@@ -7,7 +7,7 @@ const minRequestNumber = 10
 const dropDownLength = 5
 
 $('#search-box-input').keyup(async function (event) {
-    debugger
+
     let substring = $(this).val()
     if (cities.length == 0) {
         cities = await requestCities(substring, requestLimit(0))
@@ -23,11 +23,23 @@ $('#search-box-input').keyup(async function (event) {
         filterCities(substring)
     }
 
-    buildCitiesDropDown()
+    buildCitiesDropDown(substring)
 })
 
-async function buildCitiesDropDown() {
+function buildCitiesDropDown(substring) {
+    if (substring.length >= 1) {
 
+        $('#search-box-list').empty();
+        for (let i = 0; i < dropDownLength; i++) {
+            $('#search-box-list').append(`<li onclick="onCityChosen(this)"`
+                + `lat="${filteredCities[i].lat}" lon="${filteredCities[i].lon}">`
+                + `${filteredCities[i].name} ${filteredCities[i].country_code}`
+                + `${filteredCities[i].timezone}</li >`);
+        }
+    }
+    else {
+        $('#search-box-list').empty();
+    }
 }
 
 function anyStartsWith(collection, substring) {
@@ -64,6 +76,10 @@ async function requestCities(substring, limit) {
     const citiesJson = await response.json()
     return citiesJson
 }
+
+$('#search-box-input').click(function (e) {
+    $(this).val('')
+});
 
 //Exponential function, higher forNumber 
 //lower return number, but never smaller than 
