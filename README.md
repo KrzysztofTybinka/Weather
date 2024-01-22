@@ -9,9 +9,15 @@ search, providing users with a visually intuitive representation of weather cond
 <img src="content/presentation.gif">
 
 # Code
-To display search bar with suggestions, application fetches api response and turns it into a valid json.  
+To display a search bar with suggestions, the application utilizes the MatchCityNameApi, an API connected to a NoSQL database containing over 140,000 cities. It retrieves the API's response with the number of objects specified in the maxRequestNumber constant and stores it in memory to avoid excessive requests. The quantity of fetched objects depends on the letters provided by the user, controlled by a requestLimit exponential function. As the user inputs more letters, the request limit decreases, thereby reducing the number of requested objects and increasing the likelihood of finding the correct city name. Initially, the application checks the objects in memory for a match. If none is found, it sends a new request to the MatchCityNameApi. This approach minimizes the number of requests made by prioritizing matches found in memory before resorting to additional API calls.
 <br />
-<img src="content/matchCity.png">
+
+Flowchart representing search bar process
+<img src="">
+<br />
+
+On key up event for search bar
+<img src="">
 
 When user chooses the city, latitude and longitude are being send to weather forecast api, and weather is set to current.  
 <br />
