@@ -13,11 +13,11 @@ To display a search bar with suggestions, the application utilizes the MatchCity
 <br />
 
 Flowchart representing search bar process
-<img src="">
+<img src="content/flowchart.png">
 <br />
 
 On key up event for search bar
-<img src="">
+<img src="content/search-box-input-keyup-event">
 
 When user chooses the city, latitude and longitude are being send to weather forecast api, and weather is set to current.  
 <br />
