@@ -12,19 +12,19 @@ search, providing users with a visually intuitive representation of weather cond
 To display a search bar with suggestions, the application utilizes the MatchCityNameApi, an API connected to a NoSQL database containing over 140,000 cities. It retrieves the API's response with the number of objects specified in the maxRequestNumber constant and stores it in memory to avoid excessive requests. The quantity of fetched objects depends on the letters provided by the user, controlled by a requestLimit exponential function. As the user inputs more letters, the request limit decreases, thereby reducing the number of requested objects and increasing the likelihood of finding the correct city name. Initially, the application checks the objects in memory for a match. If none is found, it sends a new request to the MatchCityNameApi. This approach minimizes the number of requests made by prioritizing matches found in memory before resorting to additional API calls.
 <br />
 
-Flowchart representing filtering process 
+Flowchart representing filtering process.  
 <br />
 <img src="content/flowchart.png">
 <br />
 
-On key up event code, responsible for filtering cities 
+On key up event code, responsible for filtering cities.  
 <br />
 <img src="content/search-box-input-keyup-event.png">
 <br />
 
-When user chooses the city, latitude and longitude are being send to weather forecast api, and weather is set to current.  
+The limit parameter for a city request is calculated using the requestLimit function, which decreases exponentially but never falls below the minRequestNumber constant and never exceeds the maxRequestNumber constant. 
 <br />
-<img src="content/cityChosen.png">
+<img src="content/requestLimit.png">
 
 # Contributing
 If you wish to contribute to this project, please feel free to create a pull request with your changes.
