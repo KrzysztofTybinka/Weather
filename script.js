@@ -1,12 +1,19 @@
 const forecastApiKey = 'b3ae74932b305e9002676ce8ef72bfbb'
 const forecastIconsUrl = 'https://openweathermap.org/img/wn/'
-let cities = []
-let filteredCities = []
+const matchCityNameApiUrl = 'https://localhost:7084/api/cities'
+let cities = [] //requested cities from match city name api
+let filteredCities = [] //cities filtered in memory
 const maxRequestNumber = 100
 const minRequestNumber = 10
 const dropDownLength = 5
 
-$('#search-box-input').keyup(async function (event) {
+//Object to store parsed data from forecast api request
+let weatherInfo = {
+    cityName: null,
+    info: []
+}
+
+$('#search-box-input').keyup(async function () {
 
     let substring = $(this).val()
     if (cities.length == 0) {
@@ -27,9 +34,11 @@ $('#search-box-input').keyup(async function (event) {
 })
 
 function buildCitiesDropDown(substring) {
-    if (substring.length >= 1) {
+    $('#search-box-list').empty();
 
+    if (substring.length >= 1) {
         let matchingCities = filteredCities < dropDownLength ? filteredCities : filteredCities.slice(0, dropDownLength)
+
         $('#search-box-list').empty();
         for (city of matchingCities) {
             $('#search-box-list').append(`<li onclick="onCityChosen(this)"`
@@ -37,9 +46,6 @@ function buildCitiesDropDown(substring) {
                 + `${city.name} ${city.country_code} `
                 + `${city.timezone}</li >`);
         }
-    }
-    else {
-        $('#search-box-list').empty();
     }
 }
 
@@ -49,23 +55,20 @@ function anyStartsWith(collection, substring) {
 }
 
 function filterCities(substring) {
-    filteredCities = []
-    cities.filter(function (city) {
-        if (city.name.toLowerCase().startsWith(substring.toLowerCase())) {
-            filteredCities.push(city)
-        }
-    });
-    filteredCities.sort(a => a.population)
+    filteredCities = cities.filter((city) =>
+        city.name.toLowerCase().startsWith(substring.toLowerCase())
+    ).sort(city => city.population);
 }
 
 async function requestCities(substring, limit) {
-    const response = await fetch("https://localhost:7084/api/cities?startsWith="
+    const response = await fetch(matchCityNameApiUrl
+        + "?startsWith="
         + substring + "&limit=" + limit)
     const citiesJson = await response.json()
     return citiesJson
 }
 
-$('#search-box-input').click(function (e) {
+$('#search-box-input').click(function () {
     $(this).val('')
 });
 
@@ -85,9 +88,7 @@ function requestLimit(forNumber) {
 }
 
 async function onCityChosen(city) {
-    debugger
     clearAll()
-
     $('#search-box-list').empty()
     $('#search-box-input').val(city.innerHTML)
 
@@ -96,7 +97,6 @@ async function onCityChosen(city) {
     await getWeather(lat, lon)
     fillWeekInfo()
     onDaySet(0)
-
 
     onDetailsSet(0, closestHour())
 }
@@ -126,7 +126,11 @@ function fillWeekInfo() {
     let infoArr = weatherInfo.info;
 
     for (let i = 0; i < infoArr.length; i++) {
-        $('#week-list').append(`<li ix="${i}" onclick="onDaySet(this.attributes.ix.nodeValue)"><span>${infoArr[i].date}</span> <img src="${forecastIconsUrl + infoArr[i].averageIcon}.png"> <span><b>${infoArr[i].average} ${infoArr[i].maxTemp}</b>/${infoArr[i].minTemp}</span></li>`)
+        $('#week-list').append(`<li ix="${i}"`
+            + `onclick = "onDaySet(this.attributes.ix.nodeValue)">`
+            + `<span> ${infoArr[i].date}</span>`
+            + `<img src = "${forecastIconsUrl + infoArr[i].averageIcon}.png">`
+            + `<span><b>${infoArr[i].average} ${infoArr[i].maxTemp}</b>/${infoArr[i].minTemp}</span></li>`)
     }
 }
 
@@ -135,9 +139,8 @@ function clearAll() {
     weatherInfo = {
         cityName: null,
         info: []
-    };
+    }
 }
-
 
 async function getWeather(lat, lon) {
     const response = await fetch(
@@ -230,7 +233,10 @@ function onDaySet(ix) {
     const dayInfo = weatherInfo.info[ix].dayInfo
 
     for (let i = 0; i < dayInfo.length; i++) {
-        $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}" onclick="onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)"><p>${dayInfo[i].hour}</p> <img src="${forecastIconsUrl + dayInfo[i].icon}.png"> <p><b>${dayInfo[i].temp}°<b></p></li>`)
+        $('#today-info-list').append(`<li dayIx="${ix}" hourIx="${i}"`
+            + `onclick = "onDetailsSet(this.attributes.dayIx.nodeValue, this.attributes.hourIx.nodeValue)" >`
+            + `<p> ${dayInfo[i].hour}</p> <img src="${forecastIconsUrl + dayInfo[i].icon}.png"> <p>`
+            + `<b> ${dayInfo[i].temp}°<b></p></li>`)
     }
 }
 
